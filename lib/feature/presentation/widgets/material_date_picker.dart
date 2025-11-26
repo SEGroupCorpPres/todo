@@ -2,10 +2,12 @@ import 'package:todo/core/core.dart';
 import 'package:todo/feature/feature.dart';
 
 Future<void> materialDatePicker(BuildContext context) async {
-  DateCubit cubit = context.watch<DateCubit>();
+  final cubit = context.read<DateCubit>();
+  final selectedDate = cubit.state.selectedDate;
+
   final date = await showDatePicker(
     context: context,
-    initialDate: DateTime(cubit.state.selectedDate?.year ?? DateTime.now().year),
+    initialDate: selectedDate ?? DateTime.now(),
     firstDate: DateTime(1940),
     lastDate: DateTime(2100),
     helpText: 'ВЫБЕРИТЕ ДАТУ',
@@ -22,7 +24,7 @@ Future<void> materialDatePicker(BuildContext context) async {
             style: TextButton.styleFrom(textStyle: GoogleFonts.montserrat()),
           ),
           // Input
-          inputDecorationTheme: InputDecorationTheme(
+          inputDecorationTheme: const InputDecorationTheme(
             floatingLabelBehavior: .always,
             contentPadding: .zero,
           ),
@@ -31,8 +33,10 @@ Future<void> materialDatePicker(BuildContext context) async {
       );
     },
   );
-  if (date != cubit.state.selectedDate) {
-    context.read<DateCubit>().selectDate(date ?? DateTime.now());
+
+  if (!context.mounted) return;
+
+  if (date != null && date != selectedDate) {
+    context.read<DateCubit>().selectDate(DateTime(date.year, date.month, date.day));
   }
-  log(cubit.state.selectedDate!.toIso8601String());
 }

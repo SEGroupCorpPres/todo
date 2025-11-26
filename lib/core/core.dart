@@ -23,7 +23,7 @@ export 'package:google_fonts/google_fonts.dart';
 export 'package:intl/intl.dart' hide TextDirection;
 export 'package:flutter/foundation.dart';
 export 'package:logger/logger.dart';
-export 'package:path/path.dart';
+export 'package:path/path.dart' hide Context;
 export 'package:path_provider/path_provider.dart';
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:sqflite/sqflite.dart';
